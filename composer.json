@@ -1,0 +1,24 @@
+{
+    "name": "dolondro/google-authenticator",
+    "description": "Code to authenticate against the Google Authenticator app",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Doug",
+            "email": "dougnelson@silktide.com"
+        }
+    ],
+    "require": {
+        "Christian-Riesen/base32": "^1.2",
+        "psr/cache": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dolondro\\GoogleAuthenticator\\": "src",
+            "Dolondro\\GoogleAuthenticator\\Tests\\": "tests"
+        }
+    }
+}
