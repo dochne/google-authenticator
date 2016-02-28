@@ -10,7 +10,8 @@
     ],
     "require": {
         "Christian-Riesen/base32": "^1.2",
-        "psr/cache": "^1.0"
+        "psr/cache": "^1.0",
+        "cache/filesystem-adapter": "^0.3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.2.2"

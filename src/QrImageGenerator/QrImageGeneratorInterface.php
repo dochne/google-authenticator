@@ -8,5 +8,5 @@ use Dolondro\GoogleAuthenticator\Secret;
 
 interface QrImageGeneratorInterface
 {
-    public function render(Secret $secret);
+    public function generateUri(Secret $secret);
 }

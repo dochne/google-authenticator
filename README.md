@@ -1,6 +1,4 @@
 # GoogleAuthenticator
-### Important Note
-This is still under initial development, I've yet to work out the best way of abstracting the concept of the image generators.
 
 ## Introduction
 2 factor authentication is pretty awesome. Far too many people use the same password for multiple things, and sometimes it's nice to actually have a secure application.
@@ -20,7 +18,13 @@ You can initially create the a secret code for use in your application using:
     $secretFactory = new SecretFactory();
     $secret = $secretFactory->create($issuer, $accountName);
     
-This gives you a secret. You should both feed this into a QrImageGenerator so your user can scan the QR code into their phone and secondarily, attach the secret to their user account so you can query it.
+This gives you a secret. You should:
+    1. feed this object into a QrImageGenerator so your user can scan the QR code into their phone 
+    2. attach the secret to their user account so you can query it
+    
+The only ImageGenerator included with this library is GoogleImageGenerator which uses the Google QR code API to generate the image.
+If you want to use something that doesn't ever hit up an external service, it should be easy enough to extend the interface to build a base64 encoded png (or similar)
+that you can include as a data uri. It just needs to generate the QR code for the data in $secret->getUri();
     
 You can verify that the user has been successful by using this:
 
@@ -36,6 +40,17 @@ If you want to use a PSR-6 cache interface to attempt to prevent replay attacks,
     $googleAuth->authenticate($secret, $code);
     
 If the code has been used for that secret in the last 30 seconds, it will return false.
+
+## Examples
+An example working implementation of this code can be found in the example.php file, which can be run either as:
+
+    php example.php
+    
+Which will allow you to generate a secret, then test it, or:
+
+    php example.php mysecretcode
+    
+Which will allow you to take an already existing code and again, test if your code is valid
 
 ## References
 Other PHP Google Authenticator implementations:
