@@ -11,10 +11,12 @@ if (isset($argv[1])) {
     $secretFactory = new \Dolondro\GoogleAuthenticator\SecretFactory();
     $secret = $secretFactory->create("MyAwesomeWebCo", "Dolondro");
     $secretKey = $secret->getSecretKey();
-    $googleQrImageGenerator = new \Dolondro\GoogleAuthenticator\QrImageGenerator\GoogleQrImageGenerator();
+
+    $qrImageGenerator = new \Dolondro\GoogleAuthenticator\QrImageGenerator\GoogleQrImageGenerator();
+    // $qrImageGenerator = new \Dolondro\GoogleAuthenticator\QrImageGenerator\EndroidQrImageGenerator();
 
     echo "Your secret is: ".$secretKey."\n";
-    echo "Visit this URL: ".$googleQrImageGenerator->generateUri($secret)." and add it to your google authenticator app\n";
+    echo "Visit this URL: ".$qrImageGenerator->generateUri($secret)." and add it to your google authenticator app\n";
 }
 
 $googleAuthenticator = new \Dolondro\GoogleAuthenticator\GoogleAuthenticator();
