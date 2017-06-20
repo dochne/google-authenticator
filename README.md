@@ -19,12 +19,14 @@ You can initially create the a secret code for use in your application using:
     $secret = $secretFactory->create($issuer, $accountName);
     
 This gives you a secret. You should:
-1. feed this object into a QrImageGenerator so your user can scan the QR code into their phone 
+1. feed this object into a QrImageGenerator so your user can scan the QR code into their phone
 2. attach the secret to their user account so you can query it
-    
-The only ImageGenerator included with this library is GoogleImageGenerator which uses the Google QR code API to generate the image.
-If you want to use something that doesn't ever hit up an external service, it should be easy enough to extend the interface to build a base64 encoded png (or similar)
-that you can include as a data uri. It just needs to generate the QR code for the data in $secret->getUri();
+
+There are 2 ImageGenerator implementations included with this library:
+1. GoogleImageGenerator which uses the Google QR code API to generate the image.
+2. EndroidQrImageGenerator which requires you composer require `endroid/QrCode:~2.2` which generates it without any extenal service dependencies.
+
+If neither of these fit the bill for some reason, it's easy to create another implementation, as all it needs to do is generate a QR code for the data in `$secret->getUri()`
     
 You can verify that the user has been successful by using this:
 
