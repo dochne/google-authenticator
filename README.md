@@ -19,8 +19,8 @@ You can initially create the a secret code for use in your application using:
     $secret = $secretFactory->create($issuer, $accountName);
     
 This gives you a secret. You should:
-    1. feed this object into a QrImageGenerator so your user can scan the QR code into their phone 
-    2. attach the secret to their user account so you can query it
+1. feed this object into a QrImageGenerator so your user can scan the QR code into their phone 
+2. attach the secret to their user account so you can query it
     
 The only ImageGenerator included with this library is GoogleImageGenerator which uses the Google QR code API to generate the image.
 If you want to use something that doesn't ever hit up an external service, it should be easy enough to extend the interface to build a base64 encoded png (or similar)
