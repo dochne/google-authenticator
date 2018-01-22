@@ -13,10 +13,12 @@ This library has the advantage of being slightly nicer (I hope) to integrate int
 ## Usage
 You can initially create the a secret code for use in your application using:
 
-    $issuer = "MyAwesomeCorp";
-    $accountName = "MrsSmith";
-    $secretFactory = new SecretFactory();
-    $secret = $secretFactory->create($issuer, $accountName);
+```php
+$issuer = "MyAwesomeCorp";
+$accountName = "MrsSmith";
+$secretFactory = new SecretFactory();
+$secret = $secretFactory->create($issuer, $accountName);
+```
     
 This gives you a secret. You should:
 1. feed this object into a QrImageGenerator so your user can scan the QR code into their phone
@@ -30,27 +32,35 @@ If neither of these fit the bill for some reason, it's easy to create another im
     
 You can verify that the user has been successful by using this:
 
-    $googleAuth = new GoogleAuthenticator();
-    $googleAuth->authenticate($secret, $code);
+```php
+$googleAuth = new GoogleAuthenticator();
+$googleAuth->authenticate($secret, $code);
+```
     
 Authenticate will either boolean true/false.
 
 If you want to use a PSR-6 cache interface to attempt to prevent replay attacks, you can do so like so:
 
-    $googleAuth = new GoogleAuthenticator();
-    $googleAuth->setCache($cacheItemPoolInterface);
-    $googleAuth->authenticate($secret, $code);
+```php
+$googleAuth = new GoogleAuthenticator();
+$googleAuth->setCache($cacheItemPoolInterface);
+$googleAuth->authenticate($secret, $code);
+```
     
 If the code has been used for that secret in the last 30 seconds, it will return false.
 
 ## Examples
 An example working implementation of this code can be found in the example.php file, which can be run either as:
 
-    php example.php
+```sh
+php example.php
+```
     
 Which will allow you to generate a secret, then test it, or:
 
-    php example.php mysecretcode
+```sh
+php example.php mysecretcode
+```
     
 Which will allow you to take an already existing code and again, test if your code is valid
 
