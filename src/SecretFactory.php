@@ -14,7 +14,7 @@ class SecretFactory
      */
     public function __construct($secretLength = 16)
     {
-        if ($secretLength == 0 || $secretLength % 8 > 0) {
+        if (0 == $secretLength || $secretLength % 8 > 0) {
             throw new \InvalidArgumentException("Secret length must be longer than 0 and divisible by 8");
         }
         $this->secretLength = $secretLength;
@@ -22,10 +22,11 @@ class SecretFactory
 
     /**
      * The spec technically allows you to only have an accountName not an issuer, but as it's strongly recommended,
-     * I don't feel particularly guilty about forcing it in the create
+     * I don't feel particularly guilty about forcing it in the create.
      *
      * @param $issuer
      * @param $accountName
+     *
      * @return Secret
      */
     public function create($issuer, $accountName)
@@ -43,7 +44,7 @@ class SecretFactory
     {
         $key = "";
         while (strlen($key) < $this->secretLength) {
-            $key.=$this->base32Chars[random_int(0, 31)];
+            $key .= $this->base32Chars[random_int(0, 31)];
         }
 
         return $key;

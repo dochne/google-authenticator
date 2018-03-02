@@ -1,7 +1,6 @@
 <?php
 
-include("vendor/autoload.php");
-
+include "vendor/autoload.php";
 
 if (isset($argv[1])) {
     $secretKey = $argv[1];
@@ -23,8 +22,8 @@ $googleAuthenticator = new \Dolondro\GoogleAuthenticator\GoogleAuthenticator();
 
 while (true) {
     echo "Enter the code that has been given in the app:\n";
-    $handle = fopen ("php://stdin","r");
-    while (($code = trim(fgets($handle)))===""){
+    $handle = fopen("php://stdin", "r");
+    while ("" === ($code = trim(fgets($handle)))) {
         echo "Response required\n";
     }
 
