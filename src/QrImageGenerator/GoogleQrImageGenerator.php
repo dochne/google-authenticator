@@ -1,14 +1,13 @@
 <?php
 
-
 namespace Dolondro\GoogleAuthenticator\QrImageGenerator;
-
 
 use Dolondro\GoogleAuthenticator\Secret;
 
 class GoogleQrImageGenerator implements QrImageGeneratorInterface
 {
     protected $width;
+
     protected $height;
 
     public function __construct($width = 200, $height = 200)
