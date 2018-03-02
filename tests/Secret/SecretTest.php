@@ -2,21 +2,19 @@
 
 namespace Dolondro\GoogleAuthenticator\Tests\Secret;
 
-use Base32\Base32;
 use Dolondro\GoogleAuthenticator\Secret;
-use Dolondro\GoogleAuthenticator\SecretFactory;
 
 class SecretTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests that realistically, aren't going to fail
+     * Tests that realistically, aren't going to fail.
      */
     public function testBasicFunctionality()
     {
         $secret = new Secret("ReynolmIndustries", "MrSmith", "SecretKey");
         $this->assertEquals("ReynolmIndustries", $secret->getIssuer());
         $this->assertEquals("MrSmith", $secret->getAccountName());
-        $this->assertEquals("SecretKey" , $secret->getSecretKey());
+        $this->assertEquals("SecretKey", $secret->getSecretKey());
     }
 
     public function testGetUri()

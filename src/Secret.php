@@ -5,11 +5,14 @@ namespace Dolondro\GoogleAuthenticator;
 class Secret
 {
     protected $issuer;
+
     protected $accountName;
+
     protected $secretKey;
 
     /**
      * Secret constructor.
+     *
      * @param $issuer
      * @param $accountName
      * @param $secretKey
@@ -17,7 +20,7 @@ class Secret
     public function __construct($issuer, $accountName, $secretKey)
     {
         // As per spec sheet
-        if (strpos($issuer.$accountName, ":")!==false) {
+        if (strpos($issuer.$accountName, ":") !== false) {
             throw new \InvalidArgumentException("Neither the 'Issuer' parameter nor the 'AccountName' parameter may contain a colon");
         }
 
