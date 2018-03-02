@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Dolondro\GoogleAuthenticator;
-
 
 use Base32\Base32;
 use Psr\Cache\CacheItemPoolInterface;
@@ -14,7 +12,7 @@ class GoogleAuthenticator
     protected $codeLength = 6;
 
     /**
-     * @var CacheItemPoolInterface|null $cachePool
+     * @var CacheItemPoolInterface|null
      */
     protected $cachePool = null;
 
@@ -28,21 +26,23 @@ class GoogleAuthenticator
 
     /**
      * @param string $secret
-     * @param int $code
+     * @param int    $code
+     *
      * @return bool
      */
     public function authenticate($secret, $code)
     {
         $correct = false;
-        for ($i=-1; $i<=1; $i++) {
+        for ($i = -1; $i <= 1; ++$i) {
             if ($this->calculateCode($secret) == $code) {
                 $correct = true;
+
                 break;
             }
         }
 
         // If they're not using a cache to prevent people being able to use the same code twice or if they were wrong anyway...
-        if (!isset($this->cachePool) || $correct==false) {
+        if (!isset($this->cachePool) || $correct == false) {
             return $correct;
         }
 
@@ -69,15 +69,16 @@ class GoogleAuthenticator
         // We don't care about the value at all, it's just something that's needed to use the caching interface
         $item->set(true);
         $this->cachePool->save($item);
+
         return true;
     }
 
-    protected function getTimeSlice($offset=0)
+    protected function getTimeSlice($offset = 0)
     {
         return floor(time() / 30) + ($offset * 30);
     }
 
-    public function calculateCode($secret, $timeSlice=null)
+    public function calculateCode($secret, $timeSlice = null)
     {
         // If we haven't been fed a timeSlice, then get one.
         // It looks a bit unclean doing it like this, but it allows us to write testable code
