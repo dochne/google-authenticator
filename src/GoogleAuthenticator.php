@@ -43,7 +43,7 @@ class GoogleAuthenticator
         }
 
         // If they're not using a cache to prevent people being able to use the same code twice or if they were wrong anyway...
-        if (!isset($this->cachePool) || $correct==false) {
+        if (!isset($this->cachePool) || !$correct) {
             return $correct;
         }
 
