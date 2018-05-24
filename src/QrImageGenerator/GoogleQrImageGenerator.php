@@ -23,6 +23,6 @@ class GoogleQrImageGenerator implements QrImageGeneratorInterface
 
     public function generateUri(Secret $secret)
     {
-        return "https://chart.googleapis.com/chart?chs={$this->width}x{$this->height}&chld=M|0&cht=qr&chl=".rawurlencode($secret->getUri());
+        return "https://chart.googleapis.com/chart?chs={$this->width}x{$this->height}&chld=M|0&cht=qr&chl=".$secret->getUri();
     }
 }
