@@ -27,9 +27,10 @@ class GoogleAuthenticator
     }
 
     /**
-     * @param string $secret
-     * @param int $code
+     * @param $secret
+     * @param $code
      * @return bool
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function authenticate($secret, $code)
     {
@@ -48,7 +49,7 @@ class GoogleAuthenticator
 
         // If we're here then we must be using a cache, and we must be right
 
-        // We generate the key as securely as possible, then salt it using something that will always be replicatable.
+        // We generate the key as securely as possible, then salt it using something that will always be replicable.
         // We're doing this hashing for de-duplication (aka, we want to know if it exists), but as we're also possibly
         // securing the secret somewhere, we want to try and have as secure as possible
         //
@@ -77,7 +78,12 @@ class GoogleAuthenticator
         return floor(time() / 30) + ($offset * 30);
     }
 
-    public function calculateCode($secret, $timeSlice=null)
+    /**
+     * @param $secret
+     * @param null $timeSlice
+     * @return string
+     */
+    public function calculateCode($secret, $timeSlice = null)
     {
         // If we haven't been fed a timeSlice, then get one.
         // It looks a bit unclean doing it like this, but it allows us to write testable code
