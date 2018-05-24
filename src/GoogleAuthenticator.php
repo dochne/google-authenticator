@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Dolondro\GoogleAuthenticator;
-
 
 use Base32\Base32;
 use Psr\Cache\CacheItemPoolInterface;
@@ -14,7 +12,7 @@ class GoogleAuthenticator
     protected $codeLength = 6;
 
     /**
-     * @var CacheItemPoolInterface|null $cachePool
+     * @var CacheItemPoolInterface|null
      */
     protected $cachePool = null;
 
@@ -29,15 +27,18 @@ class GoogleAuthenticator
     /**
      * @param $secret
      * @param $code
+     *
      * @return bool
+     *
      * @throws \Psr\Cache\InvalidArgumentException
      */
     public function authenticate($secret, $code)
     {
         $correct = false;
-        for ($i=-1; $i<=1; $i++) {
+        for ($i = -1; $i <= 1; $i++) {
             if ($this->calculateCode($secret) == $code) {
                 $correct = true;
+
                 break;
             }
         }
@@ -70,10 +71,11 @@ class GoogleAuthenticator
         // We don't care about the value at all, it's just something that's needed to use the caching interface
         $item->set(true);
         $this->cachePool->save($item);
+
         return true;
     }
 
-    protected function getTimeSlice($offset=0)
+    protected function getTimeSlice($offset = 0)
     {
         return floor(time() / 30) + ($offset * 30);
     }
@@ -81,6 +83,7 @@ class GoogleAuthenticator
     /**
      * @param $secret
      * @param null $timeSlice
+     *
      * @return string
      */
     public function calculateCode($secret, $timeSlice = null)
