@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Dolondro\GoogleAuthenticator\QrImageGenerator;
-
 
 use Dolondro\GoogleAuthenticator\Secret;
 
