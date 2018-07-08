@@ -23,8 +23,8 @@ $googleAuthenticator = new \Dolondro\GoogleAuthenticator\GoogleAuthenticator();
 
 // Example use of the a PSR-6 cache adapter, in this case, the cache/filesystem adapter
 // This extension is only installed as require-dev
-$filesystemAdapter = new \League\Flysystem\Adapter\Local(sys_get_temp_dir() . "/");
-$filesystem        = new \League\Flysystem\Filesystem($filesystemAdapter);
+$filesystemAdapter = new \League\Flysystem\Adapter\Local(sys_get_temp_dir()."/");
+$filesystem = new \League\Flysystem\Filesystem($filesystemAdapter);
 $pool = new \Cache\Adapter\Filesystem\FilesystemCachePool($filesystem);
 $googleAuthenticator->setCache($pool);
 
