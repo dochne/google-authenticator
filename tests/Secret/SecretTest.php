@@ -3,8 +3,9 @@
 namespace Dolondro\GoogleAuthenticator\Tests\Secret;
 
 use Dolondro\GoogleAuthenticator\Secret;
+use PHPUnit\Framework\TestCase;
 
-class SecretTest extends \PHPUnit_Framework_TestCase
+class SecretTest extends TestCase
 {
     /**
      * Tests that realistically, aren't going to fail.

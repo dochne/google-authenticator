@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.1] - 2018-07-08
+### Bugfix
+- Updated tests to PHPUnit 6
+- Fixed cache to use correct PSR-6 compliant keys
+- Updated example to be clear about cache usage
+- Added cache/filesystem-adapter as a dev dependency 
+
+## [2.0.0] - 2018-05-24
+### Bugfix
+- Moved to use Endroid as default QR provider
+- Fixed Google QR provider (for the time being at least)
+- Removed cache/filesystem-adapter as a compulsory dependency 
+
 ## [1.1.1] - 2017-10-04
 ### Bugfix
 - Fixed verification that secret cannot contain a colon

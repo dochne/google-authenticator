@@ -3,8 +3,9 @@
 namespace Dolondro\GoogleAuthenticator\Tests\Authenticator;
 
 use Dolondro\GoogleAuthenticator\GoogleAuthenticator;
+use PHPUnit\Framework\TestCase;
 
-class AuthenticatorTest extends \PHPUnit_Framework_TestCase
+class AuthenticatorTest extends TestCase
 {
     public function testCalculateCode()
     {

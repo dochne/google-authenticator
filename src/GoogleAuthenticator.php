@@ -54,8 +54,12 @@ class GoogleAuthenticator
         // We're doing this hashing for de-duplication (aka, we want to know if it exists), but as we're also possibly
         // securing the secret somewhere, we want to try and have as secure as possible
         //
+        // Annoyingly, crypt looks like it can return characters outside of the range of acceptable keys, so we're just
+        // md5'ing again to make the characters acceptable :P
+        // There definitely will be a better way of doing this, but this is a quick bugfix
+        //
         // If someone has any better suggestions on how to achieve this, please send in a PR! :P
-        $key = crypt($secret."|".$code, md5($code));
+        $key = md5(crypt($secret."|".$code, md5($code)));
 
         // If it existed, then we want this function to return false
         if ($this->cachePool->hasItem($key)) {

@@ -12,7 +12,7 @@ if (isset($argv[1])) {
     $secretKey = $secret->getSecretKey();
 
     $qrImageGenerator = new \Dolondro\GoogleAuthenticator\QrImageGenerator\EndroidQrImageGenerator();
-    //$qrImageGenerator = new \Dolondro\GoogleAuthenticator\QrImageGenerator\GoogleQrImageGenerator();
+    // $qrImageGenerator = new \Dolondro\GoogleAuthenticator\QrImageGenerator\GoogleQrImageGenerator();
 
     echo "Your secret is: ".$secretKey."\n";
     file_put_contents(__DIR__."/example.html", "<img src='".$qrImageGenerator->generateUri($secret)."'>'");
@@ -20,6 +20,13 @@ if (isset($argv[1])) {
 }
 
 $googleAuthenticator = new \Dolondro\GoogleAuthenticator\GoogleAuthenticator();
+
+// Example use of the a PSR-6 cache adapter, in this case, the cache/filesystem adapter
+// This extension is only installed as require-dev
+$filesystemAdapter = new \League\Flysystem\Adapter\Local(sys_get_temp_dir() . "/");
+$filesystem        = new \League\Flysystem\Filesystem($filesystemAdapter);
+$pool = new \Cache\Adapter\Filesystem\FilesystemCachePool($filesystem);
+$googleAuthenticator->setCache($pool);
 
 while (true) {
     echo "Enter the code that has been given in the app:\n";
