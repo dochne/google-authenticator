@@ -19,7 +19,7 @@
         "cache/filesystem-adapter": "^1.0"
     },
     "suggests": {
-        "endroid/QrCode": "Allows use of EndroidQrImageGenerator to generate the QR code images",
+        "endroid/QrCode": "Allows use of EndroidQrImageGenerator to generate the QR code images"
     },
     "autoload": {
         "psr-4": {
