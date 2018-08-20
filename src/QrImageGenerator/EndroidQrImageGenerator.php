@@ -24,6 +24,7 @@ class EndroidQrImageGenerator implements QrImageGeneratorInterface
         $qrCode->setSize($this->size);
 
         $qrCode->setWriterByName('png');
+
         return $qrCode->writeDataUri();
     }
 }
