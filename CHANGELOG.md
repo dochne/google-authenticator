@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.4] - 2018-08-20
+### Dependency compatibility
+- Added support for Endroid ~3
+
 ## [2.0.3] - 2018-07-09
 ### Bugfix
 - Actually fixed malformed composer.json
