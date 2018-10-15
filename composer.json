@@ -23,7 +23,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Dolondro\\GoogleAuthenticator\\": "src",
+            "Dolondro\\GoogleAuthenticator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Dolondro\\GoogleAuthenticator\\Tests\\": "tests"
         }
     }
