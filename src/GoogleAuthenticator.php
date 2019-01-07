@@ -36,7 +36,8 @@ class GoogleAuthenticator
     {
         $correct = false;
         for ($i = -1; $i <= 1; $i++) {
-            if ($this->calculateCode($secret) == $code) {
+            $timeSlice = $this->getTimeSlice($i);
+            if ($this->calculateCode($secret, $timeSlice) == $code) {
                 $correct = true;
 
                 break;
