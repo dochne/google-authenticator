@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.5] - 2019-01-08
+### Bugfix
+- Fixed timeslices not being used properly
+
 ## [2.0.4] - 2018-08-20
 ### Dependency compatibility
 - Added support for Endroid ~3
