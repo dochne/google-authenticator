@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.6] - 2019-01-31
+- Support NOP version of paragonie/random_compat
+
 ## [2.0.5] - 2019-01-08
 ### Bugfix
 - Fixed timeslices not being used properly
