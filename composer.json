@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "Christian-Riesen/base32": "^1.2",
+        "christian-riesen/base32": "^1.2",
         "psr/cache": "^1.0",
         "paragonie/random_compat": "^2.0|~9.99"
     },
@@ -19,7 +19,7 @@
         "cache/filesystem-adapter": "^1.0"
     },
     "suggests": {
-        "endroid/QrCode": "Allows use of EndroidQrImageGenerator to generate the QR code images"
+        "endroid/qrcode": "Allows use of EndroidQrImageGenerator to generate the QR code images"
     },
     "autoload": {
         "psr-4": {
