@@ -25,7 +25,7 @@ This gives you a secret. You should:
 2. attach the secret to their user account so you can query it
 
 There are 2 ImageGenerator implementations included with this library:
-1. EndroidQrImageGenerator which requires you composer require `endroid/QrCode:~2.2|~3` which generates it without any external service dependencies.
+1. EndroidQrImageGenerator which requires you composer require `endroid/qr-code:~2.2|~3` which generates it without any external service dependencies.
 2. GoogleImageGenerator which uses the Google QR code API to generate the image.
 
 I'd recommend using Endroid as it seems that Google has now [deprecated their QR code API](https://developers.google.com/chart/infographics/docs/qr_codes)
