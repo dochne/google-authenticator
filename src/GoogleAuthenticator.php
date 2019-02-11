@@ -16,6 +16,18 @@ class GoogleAuthenticator
      */
     protected $cachePool = null;
 
+    private $time;
+
+    /**
+     * GoogleAuthenticator constructor.
+     *
+     * @param $time
+     */
+    public function __construct($time = null)
+    {
+        $this->time = $time ? $time : time();
+    }
+
     /**
      * @param CacheItemPoolInterface $cacheItemPoolInterface
      */
@@ -82,7 +94,7 @@ class GoogleAuthenticator
 
     protected function getTimeSlice($offset = 0)
     {
-        return floor(time() / 30) + ($offset * 30);
+        return floor($this->time / 30) + $offset;
     }
 
     /**
