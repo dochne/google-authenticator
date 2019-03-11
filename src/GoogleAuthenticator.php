@@ -25,7 +25,7 @@ class GoogleAuthenticator
      */
     public function __construct($time = null)
     {
-        $this->time = $time ? $time : time();
+        $this->time = $time;
     }
 
     /**
@@ -94,7 +94,7 @@ class GoogleAuthenticator
 
     protected function getTimeSlice($offset = 0)
     {
-        return floor($this->time / 30) + $offset;
+        return floor($this->getTime() / 30) + $offset;
     }
 
     /**
@@ -136,5 +136,14 @@ class GoogleAuthenticator
 
         // Finally, pad out the string with 0s
         return str_pad($value % $modulo, $this->codeLength, '0', STR_PAD_LEFT);
+    }
+
+    private function getTime()
+    {
+        if (!$this->time) {
+            $this->time = time();
+        }
+
+        return $this->time;
     }
 }
