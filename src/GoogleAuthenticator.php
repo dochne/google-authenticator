@@ -49,7 +49,7 @@ class GoogleAuthenticator
         $correct = false;
         for ($i = -1; $i <= 1; $i++) {
             $timeSlice = $this->getTimeSlice($i);
-            if ($this->calculateCode($secret, $timeSlice) == $code) {
+            if (hash_equals($this->calculateCode($secret, $timeSlice), $code)) {
                 $correct = true;
 
                 break;
