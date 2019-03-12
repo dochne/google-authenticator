@@ -61,7 +61,9 @@ class GoogleAuthenticator
 
         for ($i = -$window; $i <= $window; $i++) {
             $timeSlice = $this->getTimeSlice($time, $i);
-            if (hash_equals($this->calculateCode($secret, $timeSlice), $code)) {
+
+            //if ($this->isEqual)
+            if ($this->isEqual($this->calculateCode($secret, $timeSlice), $code)) {
                 $correct = true;
 
                 break;
@@ -133,6 +135,16 @@ class GoogleAuthenticator
     protected function getTimeSlice($time, $offset = 0)
     {
         return floor($time / 30) + $offset;
+    }
+
+    /**
+     * @param $string1
+     * @param $string2
+     * @return bool
+     */
+    protected function isEqual($string1, $string2)
+    {
+        return substr_count($string1 ^ $string2, "\0") * 2 === strlen($string1 . $string2);
     }
 
     /**
