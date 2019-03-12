@@ -16,8 +16,8 @@ class AuthenticatorTest extends TestCase
     }
 
     /**
-     * @param int $timeOffset
-     * @param int $window
+     * @param int  $timeOffset
+     * @param int  $window
      * @param bool $success
      * @testWith    [0, 1, true]
      *              [-30, 1, true]
@@ -27,6 +27,7 @@ class AuthenticatorTest extends TestCase
      *              [60, 2, true]
      *              [-31, 1, false]
      *              [-59, 2, true]
+     *
      * @throws \Psr\Cache\InvalidArgumentException
      */
     public function testAuthenticate($timeOffset, $window, $success)
@@ -37,7 +38,7 @@ class AuthenticatorTest extends TestCase
 
         $options = [
             "time" => $baseTime + $timeOffset,
-            "window" => $window
+            "window" => $window,
         ];
 
         $authenticator = new GoogleAuthenticator($options);
@@ -49,7 +50,7 @@ class AuthenticatorTest extends TestCase
         $secret = "G2XLNTQRVES7JF3V";
         $code = "081446";
         $time = 1456073370;
-        $options = [ "time" => $time ];
+        $options = ["time" => $time];
         $authenticator = new GoogleAuthenticator($options);
         $authenticator->setCache(new ArrayCachePool());
         $this->assertTrue($authenticator->authenticate($secret, $code));
@@ -61,7 +62,7 @@ class AuthenticatorTest extends TestCase
         $secret = "G2XLNTQRVES7JF3V";
         $code = "081446";
         $time = 1456073370;
-        $options = [ "time" => $time ];
+        $options = ["time" => $time];
         $authenticator = new GoogleAuthenticator($options);
         $authenticator->setCache(new ArrayPsr16Cache());
         $this->assertTrue($authenticator->authenticate($secret, $code));
