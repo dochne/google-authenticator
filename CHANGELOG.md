@@ -4,11 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.0] - 2019-03-12
+### Added
+- Support for custom timeslice windows
+- Better unit testing support for timeslices
+- Support for PSR-16
+### Bugfix
+- Fix for potential timing attack
+
 ## [2.0.7] - 2019-02-07
+### Bugfix
 - Support for Composer 2.0
 - Updated endroid/qrcode to be the new format of endroid/qr-code
 
 ## [2.0.6] - 2019-01-31
+### Bugfix
 - Support NOP version of paragonie/random_compat
 
 ## [2.0.5] - 2019-01-08
