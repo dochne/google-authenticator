@@ -11,9 +11,9 @@ class Secret
     /**
      * Secret constructor.
      *
-     * @param $issuer
-     * @param $accountName
-     * @param $secretKey
+     * @param string $issuer
+     * @param string $accountName
+     * @param string $secretKey
      */
     public function __construct($issuer, $accountName, $secretKey)
     {

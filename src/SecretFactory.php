@@ -24,8 +24,8 @@ class SecretFactory
      * The spec technically allows you to only have an accountName not an issuer, but as it's strongly recommended,
      * I don't feel particularly guilty about forcing it in the create.
      *
-     * @param $issuer
-     * @param $accountName
+     * @param string $issuer
+     * @param string $accountName
      *
      * @return Secret
      */

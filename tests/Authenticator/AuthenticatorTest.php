@@ -2,41 +2,78 @@
 
 namespace Dolondro\GoogleAuthenticator\Tests\Authenticator;
 
+use Cache\Adapter\PHPArray\ArrayCachePool;
 use Dolondro\GoogleAuthenticator\GoogleAuthenticator;
+use Dolondro\GoogleAuthenticator\Tests\Helper\ArrayPsr16Cache;
 use PHPUnit\Framework\TestCase;
 
 class AuthenticatorTest extends TestCase
 {
-    const SECRET = "G2XLNTQRVES7JF3V";
-
-    const CODE = "081446";
-
-    const TIME = 1456073370;
-
     public function testCalculateCode()
     {
         $authenticator = new GoogleAuthenticator();
-        $this->assertEquals(self::CODE, $authenticator->calculateCode(self::SECRET, self::TIME / 30));
         $this->assertEquals("818888", $authenticator->calculateCode("OX35UDZUWP23WBUA", 48535782));
     }
 
-    public function testAuthenticate()
+    /**
+     * @param int $timeOffset
+     * @param int $window
+     * @param bool $success
+     * @testWith    [0, 1, true]
+     *              [-30, 1, true]
+     *              [30, 1, true]
+     *              [69, 1, false]
+     *              [60, 1, false]
+     *              [60, 2, true]
+     *              [-31, 1, false]
+     *              [-59, 2, true]
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    public function testAuthenticate($timeOffset, $window, $success)
     {
-        $authenticator = new GoogleAuthenticator(self::TIME);
-        self::assertTrue($authenticator->authenticate(self::SECRET, self::CODE));
+        $secret = "G2XLNTQRVES7JF3V";
+        $code = "081446";
+        $baseTime = 1456073370;
 
-        // user is 30 seconds ahead
-        $authenticator = new GoogleAuthenticator(self::TIME - 30);
-        self::assertTrue($authenticator->authenticate(self::SECRET, self::CODE));
+        $options = [
+            "time" => $baseTime + $timeOffset,
+            "window" => $window
+        ];
 
-        // user is 59 seconds before, so we test for a newer code
-        $authenticator = new GoogleAuthenticator(self::TIME + 59);
-        self::assertTrue($authenticator->authenticate(self::SECRET, self::CODE));
+        $authenticator = new GoogleAuthenticator($options);
+        self::assertSame($success, $authenticator->authenticate($secret, $code));
+    }
 
-        $authenticator = new GoogleAuthenticator(self::TIME - 31);
-        self::assertFalse($authenticator->authenticate(self::SECRET, self::CODE));
+    public function testReplayAttackPsr6()
+    {
+        $secret = "G2XLNTQRVES7JF3V";
+        $code = "081446";
+        $time = 1456073370;
+        $options = [ "time" => $time ];
+        $authenticator = new GoogleAuthenticator($options);
+        $authenticator->setCache(new ArrayCachePool());
+        $this->assertTrue($authenticator->authenticate($secret, $code));
+        $this->assertFalse($authenticator->authenticate($secret, $code));
+    }
 
-        $authenticator = new GoogleAuthenticator(self::TIME + 60);
-        self::assertFalse($authenticator->authenticate(self::SECRET, self::CODE));
+    public function testReplayAttackPsr16()
+    {
+        $secret = "G2XLNTQRVES7JF3V";
+        $code = "081446";
+        $time = 1456073370;
+        $options = [ "time" => $time ];
+        $authenticator = new GoogleAuthenticator($options);
+        $authenticator->setCache(new ArrayPsr16Cache());
+        $this->assertTrue($authenticator->authenticate($secret, $code));
+        $this->assertFalse($authenticator->authenticate($secret, $code));
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testIncorrectCacheSupplied()
+    {
+        $authenticator = new GoogleAuthenticator();
+        $authenticator->setCache(new \DateTime());
     }
 }
