@@ -19,7 +19,7 @@ class GoogleAuthenticator
 
     protected $options = [
         "window" => 1,
-        "time" => null
+        "time" => null,
     ];
 
     public function __construct($options = [])
@@ -29,12 +29,14 @@ class GoogleAuthenticator
 
     /**
      * @param CacheItemPoolInterface|CacheInterface $cache
+     *
      * @throws \Exception
      */
     public function setCache($cache)
     {
         if ($cache instanceof CacheItemPoolInterface || $cache instanceof CacheInterface) {
             $this->cache = $cache;
+
             return;
         }
 
@@ -44,7 +46,9 @@ class GoogleAuthenticator
     /**
      * @param string $secret
      * @param string $code
+     *
      * @return bool
+     *
      * @throws \Exception
      * @throws \Psr\Cache\InvalidArgumentException
      */
@@ -59,6 +63,7 @@ class GoogleAuthenticator
             $timeSlice = $this->getTimeSlice($time, $i);
             if (hash_equals($this->calculateCode($secret, $timeSlice), $code)) {
                 $correct = true;
+
                 break;
             }
         }
@@ -72,7 +77,6 @@ class GoogleAuthenticator
         if (!$correct) {
             return $correct;
         }
-
 
         // If we're here then we must be using a cache, and we must be right
 
@@ -94,6 +98,7 @@ class GoogleAuthenticator
             }
 
             $this->cache->set($key, true, 30);
+
             return true;
         }
 
@@ -111,6 +116,7 @@ class GoogleAuthenticator
             // We don't care about the value at all, it's just something that's needed to use the caching interface
             $item->set(true);
             $this->cache->save($item);
+
             return true;
         }
 
@@ -118,10 +124,10 @@ class GoogleAuthenticator
         return true;
     }
 
-
     /**
      * @param int $time
      * @param int $offset
+     *
      * @return float|int
      */
     protected function getTimeSlice($time, $offset = 0)
@@ -130,7 +136,7 @@ class GoogleAuthenticator
     }
 
     /**
-     * @param string $secret
+     * @param string   $secret
      * @param int|null $timeSlice
      *
      * @return string
