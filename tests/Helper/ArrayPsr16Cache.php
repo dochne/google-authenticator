@@ -1,16 +1,12 @@
 <?php
 
-
 namespace Dolondro\GoogleAuthenticator\Tests\Helper;
-
 
 use Psr\SimpleCache\CacheInterface;
 
 /**
  * Class ArrayPsr16
- * A very half arsed incorrect implementation as it's really just to prove a point
- *
- * @package Dolondro\GoogleAuthenticator\Tests\Helper
+ * A very half arsed incorrect implementation as it's really just to prove a point.
  */
 class ArrayPsr16Cache implements CacheInterface
 {
