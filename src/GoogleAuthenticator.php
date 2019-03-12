@@ -140,11 +140,12 @@ class GoogleAuthenticator
     /**
      * @param $string1
      * @param $string2
+     *
      * @return bool
      */
     protected function isEqual($string1, $string2)
     {
-        return substr_count($string1 ^ $string2, "\0") * 2 === strlen($string1 . $string2);
+        return substr_count($string1 ^ $string2, "\0") * 2 === strlen($string1.$string2);
     }
 
     /**
