@@ -145,7 +145,8 @@ class GoogleAuthenticator
      */
     protected function isEqual($string1, $string2)
     {
-        return substr_count($string1 ^ $string2, "\0") * 2 === strlen($string1.$string2);
+        // Use hash equals in order to prevent time side-channel attack
+        return hash_equals(substr_count($string1 ^ $string2, "\0") * 2,  strlen($string1.$string2));
     }
 
     /**
