@@ -54,30 +54,26 @@ class GoogleAuthenticator
      */
     public function authenticate($secret, $code)
     {
-        $correct = false;
+        $isCodeEqual = false;
         $time = isset($this->options["time"]) ? $this->options["time"] : time();
-
         $window = $this->options["window"];
-
         for ($i = -$window; $i <= $window; $i++) {
             $timeSlice = $this->getTimeSlice($time, $i);
-
-            //if ($this->isEqual)
-            if ($this->isEqual($this->calculateCode($secret, $timeSlice), $code)) {
-                $correct = true;
-
+            $calculatedCode = $this->calculateCode($secret, $timeSlice);
+            if ($this->isEqualCode($calculatedCode, $code)) {
+                $isCodeEqual = true;
                 break;
             }
         }
 
         // If they don't have a cache, then we return whatever we've got so far!
         if (is_null($this->cache)) {
-            return $correct;
+            return $isCodeEqual;
         }
 
         // Equally, if they were wrong, we also want to return
-        if (!$correct) {
-            return $correct;
+        if (!$isCodeEqual) {
+            return false;
         }
 
         // If we're here then we must be using a cache, and we must be right
@@ -122,8 +118,8 @@ class GoogleAuthenticator
             return true;
         }
 
-        // I'd be pretty impressed if someone got here
-        return true;
+        // We should not authenticate by default.
+        return false;
     }
 
     /**
@@ -138,15 +134,16 @@ class GoogleAuthenticator
     }
 
     /**
-     * @param $string1
-     * @param $string2
+     * @param $code1
+     * @param $code2
      *
      * @return bool
      */
-    protected function isEqual($string1, $string2)
+    protected function isEqualCode($code1, $code2)
     {
-        // Use hash equals in order to prevent time side-channel attack
-        return hash_equals(substr_count($string1 ^ $string2, "\0") * 2, strlen($string1.$string2));
+        $length1 = substr_count($code1 ^ $code2, "\0") * 2;
+        $length2 = strlen($code1.$code2);
+        return hash_equals($length1, $length2);
     }
 
     /**
