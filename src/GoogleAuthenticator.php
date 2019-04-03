@@ -62,6 +62,7 @@ class GoogleAuthenticator
             $calculatedCode = $this->calculateCode($secret, $timeSlice);
             if ($this->isEqualCode($calculatedCode, $code)) {
                 $isCodeEqual = true;
+
                 break;
             }
         }
@@ -143,6 +144,7 @@ class GoogleAuthenticator
     {
         $length1 = substr_count($code1 ^ $code2, "\0") * 2;
         $length2 = strlen($code1.$code2);
+
         return hash_equals($length1, $length2);
     }
 
