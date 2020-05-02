@@ -1,5 +1,10 @@
 # GoogleAuthenticator
 
+## Author's note
+Although this library is not deprecated by any means and should continue to work well, since the release of this library other projects have implemented this in a non-terrible style and have gained reasonable traction.
+
+Before you implement this, consider whether [otphp](https://github.com/Spomky-Labs/otphp) may suit your use case.
+
 ## Introduction
 2 factor authentication is pretty awesome. Far too many people use the same password for multiple things, and sometimes it's nice to actually have a secure application.
 
