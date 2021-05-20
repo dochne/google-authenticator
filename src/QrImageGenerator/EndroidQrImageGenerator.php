@@ -18,12 +18,12 @@ class EndroidQrImageGenerator implements QrImageGeneratorInterface
         $this->size = $size;
     }
 
-    public function generateUri(Secret $secret)
+    public function generateUri(Secret $secret, $fileType = 'png')
     {
         $qrCode = new QrCode($secret->getUri());
         $qrCode->setSize($this->size);
 
-        $qrCode->setWriterByName('png');
+        $qrCode->setWriterByName($fileType);
 
         return $qrCode->writeDataUri();
     }
