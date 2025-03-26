@@ -2,3 +2,6 @@
 /.idea/
 /composer.lock
 /example.html
+/composer.phar
+/tests/file.cache
+/tests/.phpcs-cache

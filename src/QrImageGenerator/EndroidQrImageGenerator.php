@@ -3,30 +3,46 @@
 namespace Dolondro\GoogleAuthenticator\QrImageGenerator;
 
 use Dolondro\GoogleAuthenticator\Secret;
-use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\Exception\ValidationException;
+use Endroid\QrCode\Label\Font\OpenSans;
+use Endroid\QrCode\Label\LabelAlignment;
+use Endroid\QrCode\RoundBlockSizeMode;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Writer\WriterInterface;
 
 class EndroidQrImageGenerator implements QrImageGeneratorInterface
 {
-    protected $size;
-    protected $writer;
-
-    public function __construct($size = 200, $writer = 'png')
-    {
-        if (!is_numeric($size)) {
-            throw new \InvalidArgumentException("Size is required to be numeric");
-        }
-
-        $this->size = $size;
-        $this->writer = $writer;
+    public function __construct(
+        protected int $size = 200,
+        protected WriterInterface $writer = new PngWriter(),
+        protected string $labelText = '',
+    ) {
     }
 
-    public function generateUri(Secret $secret)
+    /**
+     * @throws ValidationException
+     */
+    public function generateUri(Secret $secret): string
     {
-        $qrCode = new QrCode($secret->getUri());
-        $qrCode->setSize($this->size);
+        $builder = new Builder(
+            writer: $this->writer,
+            writerOptions: [],
+            validateResult: false,
+            data: $secret->getUri(),
+            encoding: new Encoding('UTF-8'),
+            errorCorrectionLevel: ErrorCorrectionLevel::High,
+            size: $this->size,
+            margin: 10,
+            roundBlockSizeMode: RoundBlockSizeMode::Margin,
+            labelText: $this->labelText,
+            labelFont: new OpenSans(20),
+            labelAlignment: LabelAlignment::Center
+        );
 
-        $qrCode->setWriterByName($this->writer);
-
-        return $qrCode->writeDataUri();
+        $result = $builder->build();
+        return $result->getDataUri();
     }
 }

@@ -5,59 +5,47 @@ namespace Dolondro\GoogleAuthenticator;
 use Base32\Base32;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 
 class GoogleAuthenticator
 {
     // According to the spec, this could be something other than 6. But again, apparently Google Authenticator ignores
     // that part of the spec...
-    protected $codeLength = 6;
+    protected int $codeLength = 6;
+
+    protected CacheItemPoolInterface|CacheInterface|null $cache = null;
 
     /**
-     * @var CacheItemPoolInterface|null
+     * @var array<string, mixed>
      */
-    protected $cache = null;
-
-    protected $options = [
+    protected array $options = [
         "window" => 1,
         "time" => null,
     ];
 
-    public function __construct($options = [])
+    /**
+     * @param array<string, mixed> $options
+     */
+    public function __construct(array $options = [])
     {
         $this->options = array_merge($this->options, $options);
     }
 
-    /**
-     * @param CacheItemPoolInterface|CacheInterface $cache
-     *
-     * @throws \Exception
-     */
-    public function setCache($cache)
+    public function setCache(CacheItemPoolInterface|CacheInterface|null $cache): void
     {
-        if ($cache instanceof CacheItemPoolInterface || $cache instanceof CacheInterface) {
-            $this->cache = $cache;
-
-            return;
-        }
-
-        throw new \Exception("Cache is not PSR-16 or PSR-6 compliant");
+        $this->cache = $cache;
     }
 
     /**
-     * @param string $secret
-     * @param string $code
-     *
-     * @return bool
-     *
-     * @throws \Exception
+     * @throws InvalidArgumentException
      * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function authenticate($secret, $code)
+    public function authenticate(string $secret, string $code): bool
     {
         $correct = false;
-        $time = isset($this->options["time"]) ? $this->options["time"] : time();
+        $time = $this->options["time"] ?? time();
 
-        $window = $this->options["window"];
+        $window = (int) $this->options["window"];
 
         for ($i = -$window; $i <= $window; $i++) {
             $timeSlice = $this->getTimeSlice($time, $i);
@@ -91,7 +79,7 @@ class GoogleAuthenticator
         // There definitely will be a better way of doing this, but this is a quick bugfix
         //
         // If someone has any better suggestions on how to achieve this, please send in a PR! :P
-        $key = md5(crypt($secret."|".$code, md5($code)));
+        $key = md5(crypt($secret . "|" . $code, md5($code)));
 
         // People mostly use PSR-16 these days as PSR-6 was a PITA
         if ($this->cache instanceof CacheInterface) {
@@ -100,8 +88,6 @@ class GoogleAuthenticator
             }
 
             $this->cache->set($key, true, 30);
-
-            return true;
         }
 
         if ($this->cache instanceof CacheItemPoolInterface) {
@@ -118,48 +104,26 @@ class GoogleAuthenticator
             // We don't care about the value at all, it's just something that's needed to use the caching interface
             $item->set(true);
             $this->cache->save($item);
-
-            return true;
         }
-
-        // I'd be pretty impressed if someone got here
         return true;
     }
 
-    /**
-     * @param int $time
-     * @param int $offset
-     *
-     * @return float|int
-     */
-    protected function getTimeSlice($time, $offset = 0)
+    protected function getTimeSlice(int $time, int $offset = 0): float
     {
         return floor($time / 30) + $offset;
     }
 
-    /**
-     * @param $string1
-     * @param $string2
-     *
-     * @return bool
-     */
-    protected function isEqual($string1, $string2)
+    protected function isEqual(string $string1, string $string2): bool
     {
-        return substr_count($string1 ^ $string2, "\0") * 2 === strlen($string1.$string2);
+        return substr_count($string1 ^ $string2, "\0") * 2 === strlen($string1 . $string2);
     }
 
-    /**
-     * @param string   $secret
-     * @param int|null $timeSlice
-     *
-     * @return string
-     */
-    public function calculateCode($secret, $timeSlice = null)
+    public function calculateCode(string $secret, float|int|null $timeSlice = null): string
     {
         // If we haven't been fed a timeSlice, then get one.
         // It looks a bit unclean doing it like this, but it allows us to write testable code
-        $time = isset($this->options["time"]) ? $this->options["time"] : time();
-        $timeSlice = $timeSlice ? $timeSlice : $this->getTimeSlice($time);
+        $time = $this->options["time"] ?? time();
+        $timeSlice = $timeSlice ?: $this->getTimeSlice($time);
 
         // Packs the timeslice as a "unsigned long" (always 32 bit, big endian byte order)
         $timeSlice = pack("N", $timeSlice);
@@ -178,7 +142,8 @@ class GoogleAuthenticator
         $result = substr($hash, $offset, 4);
 
         // Unpack it again
-        $value = unpack('N', $result)[1];
+        $value = unpack('N', $result);
+        $value = $value ? $value[1] : false;
 
         // Only 32 bits
         $value = $value & 0x7FFFFFFF;
@@ -187,6 +152,6 @@ class GoogleAuthenticator
         $modulo = pow(10, $this->codeLength);
 
         // Finally, pad out the string with 0s
-        return str_pad($value % $modulo, $this->codeLength, '0', STR_PAD_LEFT);
+        return str_pad((string) ($value % $modulo), $this->codeLength, '0', STR_PAD_LEFT);
     }
 }

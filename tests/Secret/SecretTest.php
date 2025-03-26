@@ -10,7 +10,7 @@ class SecretTest extends TestCase
     /**
      * Tests that realistically, aren't going to fail.
      */
-    public function testBasicFunctionality()
+    public function testBasicFunctionality(): void
     {
         $secret = new Secret("ReynolmIndustries", "MrSmith", "SecretKey");
         $this->assertEquals("ReynolmIndustries", $secret->getIssuer());
@@ -18,7 +18,7 @@ class SecretTest extends TestCase
         $this->assertEquals("SecretKey", $secret->getSecretKey());
     }
 
-    public function testGetUri()
+    public function testGetUri(): void
     {
         $secret = new Secret("Example", "alice@google.com", "JBSWY3DPEHPK3PXP");
         $this->assertEquals("otpauth://totp/Example%3Aalice%40google.com?secret=JBSWY3DPEHPK3PXP&issuer=Example", $secret->getUri());
