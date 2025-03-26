@@ -4,65 +4,35 @@ namespace Dolondro\GoogleAuthenticator;
 
 class Secret
 {
-    protected $issuer;
-    protected $accountName;
-    protected $secretKey;
-
-    /**
-     * Secret constructor.
-     *
-     * @param string $issuer
-     * @param string $accountName
-     * @param string $secretKey
-     */
-    public function __construct($issuer, $accountName, $secretKey)
+    public function __construct(protected string $issuer, protected string $accountName, protected string $secretKey)
     {
         // As per spec sheet
-        if (strpos($issuer.$accountName, ":") !== false) {
+        if (str_contains($issuer . $accountName, ":")) {
             throw new \InvalidArgumentException("Neither the 'Issuer' parameter nor the 'AccountName' parameter may contain a colon");
         }
-
-        $this->issuer = $issuer;
-        $this->accountName = $accountName;
-        $this->secretKey = $secretKey;
     }
 
-    /**
-     * @return string
-     */
-    public function getUri()
+    public function getUri(): string
     {
-        return "otpauth://totp/".rawurlencode($this->getLabel())."?secret=".$this->getSecretKey()."&issuer=".rawurlencode($this->getIssuer());
+        return "otpauth://totp/" . rawurlencode($this->getLabel()) . "?secret=" . $this->getSecretKey() . "&issuer=" . rawurlencode($this->getIssuer());
     }
 
-    /**
-     * @return string
-     */
-    public function getLabel()
+    public function getLabel(): string
     {
-        return $this->issuer.":".$this->accountName;
+        return $this->issuer . ":" . $this->accountName;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getIssuer()
+    public function getIssuer(): string
     {
         return $this->issuer;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAccountName()
+    public function getAccountName(): string
     {
         return $this->accountName;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSecretKey()
+    public function getSecretKey(): string
     {
         return $this->secretKey;
     }

@@ -1,17 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<phpunit bootstrap="./vendor/autoload.php">
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         failOnNotice="true"
+         failOnWarning="true"
+         failOnDeprecation="true"
+         failOnPhpunitDeprecation="true"
+         stopOnError="true"
+         stopOnFailure="true"
+         testdox="true"
+         displayDetailsOnIncompleteTests="true"
+         displayDetailsOnSkippedTests="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnPhpunitDeprecations="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         cacheResult="false"
+>
     <testsuites>
-        <testsuite name="Tests">
-            <directory suffix=".php">tests</directory>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist>
-            <directory>./src</directory>
-        </whitelist>
-        <blacklist>
-            <directory>./vendor</directory>
-        </blacklist>
-    </filter>
+    <coverage/>
+    <php>
+        <const name="PHPUNIT_INIT" value="true"/>
+    </php>
+    <source>
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+    </source>
 </phpunit>

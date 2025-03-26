@@ -1,0 +1,302 @@
+<?xml version="1.0"?>
+<ruleset name="StrictPSR12" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+    <description>Strict PSR12 code style standard</description>
+
+    <arg name="tab-width" value="4"/>
+    <arg name="basepath" value="."/>
+    <arg name="cache" value="tests/.phpcs-cache"/>
+    <arg name="colors"/>
+
+    <file>src/</file>
+    <file>tests/</file>
+    <exclude-pattern>vendor/*</exclude-pattern>
+
+    <rule ref="PSR12">
+        <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen"/>
+        <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingBeforeClose"/>
+        <exclude name="PSR12.Functions.ReturnTypeDeclaration"/>
+    </rule>
+
+    <rule ref="Generic.Files.LineLength">
+        <exclude name="Generic.Files.LineLength.TooLong"/>
+    </rule>
+
+    <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag"/>
+    <rule ref="Generic.PHP.DisallowShortOpenTag">
+        <exclude name="Generic.PHP.DisallowShortOpenTag.EchoFound"/>
+    </rule>
+    <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+    <rule ref="WebimpressCodingStandard.WhiteSpace.BlankLine"/>
+    <rule ref="WebimpressCodingStandard.WhiteSpace.BraceBlankLine"/>
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+    <rule ref="WebimpressCodingStandard.Strings.NoConcatenationAtTheEnd"/>
+    <rule ref="Generic.Strings.UnnecessaryStringConcat">
+        <!-- But multiline is useful for readability -->
+        <properties>
+            <property name="allowMultiline" value="true"/>
+        </properties>
+    </rule>
+    <!-- The short array syntax MUST be used to define arrays. -->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <!-- All values in multiline arrays must be indented with 4 spaces. -->
+    <rule ref="Generic.Arrays.ArrayIndent"/>
+    <rule ref="WebimpressCodingStandard.Arrays.TrailingArrayComma"/>
+    <rule ref="WebimpressCodingStandard.Arrays.Format"/>
+    <!--    <rule ref="SlevomatCodingStandard.PHP.ShortList"/>-->
+    <rule ref="WebimpressCodingStandard.WhiteSpace.Namespace"/>
+    <!--    &lt;!&ndash; There MAY NOT be a space around a namespace separator. &ndash;&gt;-->
+    <rule ref="WebimpressCodingStandard.WhiteSpace.NamespaceSeparator"/>
+    <!--    &lt;!&ndash; Import statements MUST be alphabetically sorted. &ndash;&gt;-->
+    <rule ref="WebimpressCodingStandard.Namespaces.AlphabeticallySortedUses"/>
+    <!-- Functions and const keywords MUST be lowercase in import statements. -->
+    <rule ref="WebimpressCodingStandard.Namespaces.ConstAndFunctionKeywords"/>
+    <!--    &lt;!&ndash; Unused import statements MUST be removed.&ndash;&gt;-->
+    <rule ref="WebimpressCodingStandard.Namespaces.UnusedUseStatement">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+    <!--    &lt;!&ndash; Superfluous leading backslash in import statements MUST be removed. &ndash;&gt;-->
+    <rule ref="WebimpressCodingStandard.Namespaces.UseDoesNotStartWithBackslash"/>
+    <!--    &lt;!&ndash; Fancy group import statements MUST NOT be used. &ndash;&gt;-->
+    <rule ref="SlevomatCodingStandard.Namespaces.DisallowGroupUse"/>
+    <!--    &lt;!&ndash; Each import statement MUST be on its own line. &ndash;&gt;-->
+    <rule ref="SlevomatCodingStandard.Namespaces.MultipleUsesPerLine"/>
+    <!--    &lt;!&ndash; Import statements must be grouped (classes, functions, constants) and-->
+    <!--         MUST be separated by empty lines. &ndash;&gt;-->
+    <rule ref="SlevomatCodingStandard.Namespaces.NamespaceSpacing"/>
+    <!--    &lt;!&ndash; Import statements aliases for classes, traits, functions and constants-->
+    <!--         MUST be useful. &ndash;&gt;-->
+    <rule ref="WebimpressCodingStandard.Namespaces.RedundantAlias"/>
+    <rule ref="Squiz.Scope.StaticThisUsage"/>
+    <!-- Returned variables SHOULD be useful and SHOULD NOT be assigned to a value
+         and returned on the next line. -->
+    <rule ref="SlevomatCodingStandard.Variables.UselessVariable"/>
+
+    <rule ref="WebimpressCodingStandard.WhiteSpace.CommaSpacing"/>
+    <rule ref="WebimpressCodingStandard.Formatting.NoSpaceAfterSplat"/>
+    <rule ref="WebimpressCodingStandard.Formatting.Reference"/>
+
+    <!-- The question mark MUST be used when the default argument value is null. -->
+    <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/>
+
+    <!-- The final keyword on methods MUST be omitted in final classes. -->
+    <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+
+    <!-- There SHOULD be one single space after `break` and `continue` structures with
+         a numeric argument argument. -->
+    <rule ref="WebimpressCodingStandard.ControlStructures.BreakAndContinue"/>
+    <!-- Statements MUST NOT be empty, except for catch statements. -->
+    <rule ref="Generic.CodeAnalysis.EmptyStatement">
+        <!-- But allow empty catch -->
+        <exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedCatch"/>
+    </rule>
+
+    <!-- The `continue` control structure MUST NOT be used in switch statements,
+         `break` SHOULD be used instead. -->
+    <rule ref="WebimpressCodingStandard.ControlStructures.ContinueInSwitch"/>
+
+    <!-- All catch blocks MUST be reachable. -->
+    <rule ref="SlevomatCodingStandard.Exceptions.DeadCatch"/>
+
+    <rule ref="Squiz.WhiteSpace.OperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <rule ref="Squiz.Operators.ValidLogicalOperators"/>
+
+    <rule ref="SlevomatCodingStandard.Functions.UnusedInheritedVariablePassedToClosure"/>
+
+    <rule ref="WebimpressCodingStandard.Functions.Param">
+        <exclude name="WebimpressCodingStandard.Functions.Param.MissingSpecification"/>
+        <exclude name="WebimpressCodingStandard.Functions.Param.RedundantParamDoc"/>
+    </rule>
+    <rule ref="WebimpressCodingStandard.Functions.ReturnType">
+        <exclude name="WebimpressCodingStandard.Functions.ReturnType.ReturnValue"/>
+        <exclude name="WebimpressCodingStandard.Functions.ReturnType.RedundantReturnDoc"/>
+    </rule>
+
+    <rule ref="Squiz.Commenting.DocCommentAlignment">
+        <exclude name="Squiz.Commenting.DocCommentAlignment.SpaceAfterStar"/>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.Commenting.DocCommentSpacing">
+        <properties>
+            <property name="linesCountBeforeFirstContent" value="0"/>
+            <property name="linesCountAfterLastContent" value="0"/>
+            <property name="linesCountBetweenDescriptionAndAnnotations" value="1"/>
+            <property name="linesCountBetweenAnnotationsGroups" value="1"/>
+            <property name="annotationsGroups" type="array">
+                <element value="
+                        @internal,
+                        @deprecated
+                    "/>
+                <element value="
+                        @link,
+                        @uses,
+                        @see,
+                        @copyright,
+                        @license
+                    "/>
+                <element value="
+                        @ORM\,
+                        @ODM\,
+                        @PHPCR\,
+                        @OA\
+                    "/>
+                <element value="
+                        @param\,
+                        @return\,
+                        @throws\
+                    "/>
+            </property>
+        </properties>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.Commenting.ForbiddenAnnotations">
+        <properties>
+            <property name="forbiddenAnnotations" type="array">
+                <element value="@category"/>
+                <element value="@created"/>
+                <element value="@package"/>
+                <element value="@subpackage"/>
+                <element value="@expectedException"/>
+                <element value="@expectedExceptionCode"/>
+                <element value="@expectedExceptionMessage"/>
+                <element value="@expectedExceptionMessageRegExp"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- The words _private_, _protected_, _static_, _constructor_, _deconstructor_,
+         _Created by_, _getter_ and _setter_, MUST NOT be used in comments. -->
+    <rule ref="SlevomatCodingStandard.Commenting.ForbiddenComments">
+        <properties>
+            <property name="forbiddenCommentPatterns" type="array">
+                <element value="~^(?:(?!private|protected|static)\S+ )?(?:con|de)structor\.\z~i"/>
+                <element value="~^Created by .+\.\z~i"/>
+                <element value="~^(User|Date|Time): \S+\z~i"/>
+                <element value="~^\S+ [gs]etter\.\z~i"/>
+                <element value="~^Class \S+\z~i"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Heredoc and nowdoc tags MUST be uppercase without spaces. -->
+    <rule ref="WebimpressCodingStandard.Formatting.Heredoc"/>
+
+    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing">
+        <properties>
+            <property name="spacesCountBeforeColon" value="0"/>
+        </properties>
+    </rule>
+    <rule ref="Generic.WhiteSpace.ScopeIndent"/>
+    <rule ref="PSR2.Methods.FunctionCallSignature.Indent"/>
+    <rule ref="PSR2.Methods.FunctionCallSignature.OpeningIndent"/>
+    <rule ref="Squiz.WhiteSpace.ScopeClosingBrace.Indent"/>
+
+    <!-- Variable names MUST be declared in camelCase. -->
+    <rule ref="WebimpressCodingStandard.NamingConventions.ValidVariableName"/>
+
+    <!-- Property name "$_rateTime" should not be prefixed with an underscore to indicate visibility -->
+    <rule ref="PSR2.Classes.PropertyDeclaration.Underscore"/>
+
+    <!-- Visibility must be declared on all constants if your project supports PHP 7.1 or later -->
+    <rule ref="PSR12.Properties.ConstantVisibility.NotFound"/>
+
+    <!-- Return type is "self" so return tag must be one of: "self", "static" or "$this" -->
+    <rule ref="WebimpressCodingStandard.Functions.ReturnType.ReturnArray"/>
+
+    <!-- Return type in PHPDoc tag is different than declared type in method declaration: "mixed" and "string" -->
+    <rule ref="WebimpressCodingStandard.Functions.ReturnType.DifferentTagAndDeclaration"/>
+
+    <!-- Unexpected type "string" found in return tag -->
+    <rule ref="WebimpressCodingStandard.Functions.ReturnType.ReturnComplexType"/>
+
+    <!-- Function return type is array nor iterable, but function returns array here -->
+    <rule ref="WebimpressCodingStandard.Functions.ReturnType.ReturnArray"/>
+    <!-- Function returns only array, but return type contains not array types: false -->
+    <rule ref="WebimpressCodingStandard.Functions.ReturnType.ReturnArrayOnly"/>
+    <rule ref="WebimpressCodingStandard.Functions.ReturnType.ReturnSelf"/>
+
+    <!-- Function returns only new instance of PaymentRouteResult, but return type is not only PaymentRouteResult -->
+    <rule ref="WebimpressCodingStandard.Functions.ReturnType.ReturnNewInstanceOnly"/>
+
+    <!-- Return type contains "mixed" which is not an array type -->
+    <rule ref="WebimpressCodingStandard.Functions.ReturnType.NotArrayType"/>
+
+    <!-- Return type of "getDefaultPaymentRouteResult" function is not void, but function has no return statement -->
+    <rule ref="WebimpressCodingStandard.Functions.ReturnType.InvalidNoReturn"/>
+
+    <!-- Invalid type "string" for parameter $merchantValidationForm -->
+    <rule ref="WebimpressCodingStandard.Functions.Param.ParamDocInvalidType">
+    </rule>
+
+    <!-- Parameter $form has not been found in function declaration -->
+    <rule ref="WebimpressCodingStandard.Functions.Param">
+        <exclude-pattern>src/Db.php</exclude-pattern>
+    </rule>
+
+    <!-- String concat is not required here; use a single string instead -->
+    <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
+
+    <!-- Function returns only boolean true, but return type is not only true -->
+    <rule ref="WebimpressCodingStandard.Functions.ReturnType">
+        <exclude-pattern>src/Db.php</exclude-pattern>
+    </rule>
+
+    <!-- Arguments with default values must be at the end of the argument list -->
+    <rule ref="PEAR.Functions.ValidDefaultValue"/>
+
+    <!-- Closing brace of array declaration must be on a new line -->
+    <rule ref="Generic.Arrays.ArrayIndent.CloseBraceNotNewLine"/>
+
+    <!-- Multi-line arrays must have a trailing comma after the last element -->
+    <rule ref="WebimpressCodingStandard.Arrays.TrailingArrayComma.MissingTrailingComma"/>
+
+    <!-- String "kartik\grid\Module" contains class reference, use ::class instead -->
+    <rule ref="WebimpressCodingStandard.Formatting.StringClassReference"/>
+
+    <!-- A double colon must not be followed by a whitespace -->
+    <rule ref="WebimpressCodingStandard.Formatting.DoubleColon"/>
+
+    <!-- Parentheses around expression "self::LIST_TYPE_ACTIVE" are redundant -->
+    <rule ref="WebimpressCodingStandard.Formatting.RedundantParentheses"/>
+
+    <!-- There must be exactly 1 space(s) between the closing parenthesis and the colon when declaring a return type for a function -->
+    <rule ref="WebimpressCodingStandard.Formatting.ReturnType.SpacesBeforeColon">
+        <exclude name="WebimpressCodingStandard.Formatting.ReturnType.SpacesBeforeColon"/>
+    </rule>
+
+    <!-- There must be one array element per line -->
+    <rule ref="WebimpressCodingStandard.Arrays.Format"/>
+    <!-- Unexpected space after reference character -->
+    <rule ref="WebimpressCodingStandard.Formatting"/>
+
+    <rule ref="PSR1.Files.SideEffects"/>
+
+    <!-- Ignore for migrations. -->
+    <!-- Ignore missing namespace for migrations -->
+    <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
+    </rule>
+    <!-- Ignore camel caps format for class name of migrations -->
+    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
+    </rule>
+    <!-- Ignore no camel caps format for methods name -->
+    <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
+
+    </rule>
+
+    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols"/>
+    <!-- File appears to be minified and cannot be processed -->
+    <exclude-pattern>*.js</exclude-pattern>
+    <exclude-pattern>*.css</exclude-pattern>
+    <exclude-pattern>*.json</exclude-pattern>
+
+</ruleset>

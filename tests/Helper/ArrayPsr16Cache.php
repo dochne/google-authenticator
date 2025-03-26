@@ -5,50 +5,68 @@ namespace Dolondro\GoogleAuthenticator\Tests\Helper;
 use Psr\SimpleCache\CacheInterface;
 
 /**
- * Class ArrayPsr16
  * A very half arsed incorrect implementation as it's really just to prove a point.
  */
 class ArrayPsr16Cache implements CacheInterface
 {
-    protected $data = [];
+    /** @var mixed[] */
+    protected array $data = [];
 
-    public function get($key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
-        return isset($this->data[$key]) ? $this->data[$key] : $default;
+        return $this->data[$key] ?? $default;
     }
 
-    public function set($key, $value, $ttl = null)
+    public function set(string $key, mixed $value, null|int|\DateInterval $ttl = null): bool
     {
         $this->data[$key] = $value;
+        return true;
     }
 
-    public function has($key)
+    public function has(string $key): bool
     {
         return isset($this->data[$key]);
     }
 
-    public function delete($key)
+    public function delete(string $key): bool
     {
-        // TODO: Implement delete() method.
+        unset($this->data[$key]);
+        return true;
     }
 
-    public function clear()
+    public function clear(): bool
     {
-        // TODO: Implement clear() method.
+        $this->data = [];
+        return true;
     }
 
-    public function getMultiple($keys, $default = null)
+    public function getMultiple(iterable $keys, mixed $default = null): iterable
     {
-        // TODO: Implement getMultiple() method.
+        $result = [];
+        foreach ($keys as $key) {
+            if (isset($this->data[$key])) {
+                $result[$key] = $this->data[$key];
+            }
+        }
+        return $result;
     }
 
-    public function setMultiple($values, $ttl = null)
+    /**
+     * @param iterable<string, mixed> $values
+     */
+    public function setMultiple(iterable $values, null|int|\DateInterval $ttl = null): bool
     {
-        // TODO: Implement setMultiple() method.
+        foreach ($values as $key => $value) {
+            $this->data[$key] = $value;
+        }
+        return true;
     }
 
-    public function deleteMultiple($keys)
+    public function deleteMultiple(iterable $keys): bool
     {
-        // TODO: Implement deleteMultiple() method.
+        foreach ($keys as $key) {
+            unset($this->data[$key]);
+        }
+        return true;
     }
 }

@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0] - 2025-03-26
+### Added
+- Support PHP 8.2
+- Update all libs (endroid/qr-code, psr/cache, christian-riesen/base32, paragonie/random_compat)
+- Add psr/simple-cache:^3.0
+- Add CodeStyle fixer
+- PhpStan level up to 8
+- Add fast command with `Makeile` 
+- Use Docker
+
 ## [2.2.0] - 2021-05-24
 ### Added
 - Support for different types of writer for Endroid

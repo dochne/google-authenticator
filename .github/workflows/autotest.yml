@@ -1,0 +1,26 @@
+name: Autotest
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: php:8.2-cli-alpine
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Vendor
+        run: wget https://getcomposer.org/download/latest-stable/composer.phar && php composer.phar i
+
+      - name: Run PHPSTAN
+        run: php composer.phar phpstan
+
+      - name: Run CodeStyle check
+        run: php composer.phar cs-check
+
+      - name: PhpUnit
+        run: php composer.phar phpunit
