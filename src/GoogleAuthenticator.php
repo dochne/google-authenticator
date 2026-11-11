@@ -85,13 +85,10 @@ class GoogleAuthenticator
         // We generate the key as securely as possible, then salt it using something that will always be replicable.
         // We're doing this hashing for de-duplication (aka, we want to know if it exists), but as we're also possibly
         // securing the secret somewhere, we want to try and have as secure as possible
-        //
-        // Annoyingly, crypt looks like it can return characters outside of the range of acceptable keys, so we're just
-        // md5'ing again to make the characters acceptable :P
-        // There definitely will be a better way of doing this, but this is a quick bugfix
-        //
-        // If someone has any better suggestions on how to achieve this, please send in a PR! :P
-        $key = md5(crypt($secret."|".$code, md5($code)));
+        $key = hash_hmac('sha256', $code, $secret);
+
+        // We must use TTL at least equals of maximum code lifetime, and to be sure we add an extra 30 seconds
+        $ttl = 30 * (2 * $window + 2);
 
         // People mostly use PSR-16 these days as PSR-6 was a PITA
         if ($this->cache instanceof CacheInterface) {
@@ -99,7 +96,7 @@ class GoogleAuthenticator
                 return false;
             }
 
-            $this->cache->set($key, true, 30);
+            $this->cache->set($key, true, $ttl);
 
             return true;
         }
@@ -114,7 +111,7 @@ class GoogleAuthenticator
             // to the cachePool
             $item = $this->cache->getItem($key);
             // It's a quick expiry thing, 30 seconds is more than long enough
-            $item->expiresAfter(30);
+            $item->expiresAfter($ttl);
             // We don't care about the value at all, it's just something that's needed to use the caching interface
             $item->set(true);
             $this->cache->save($item);
